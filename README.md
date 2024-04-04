@@ -69,6 +69,8 @@ Then, call the `log()` method:
 
 ```cpp
 logger.log(logfmtxx::level::info, "hello world");
+// or
+logger.info("hello world");
 ```
 
 The result should be:

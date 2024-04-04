@@ -117,6 +117,26 @@ namespace logfmtxx {
         m_printer(format(record));
       }
 
+      template <typename... Args>
+      void debug(const std::string& message, field<Args>... fields) {
+        log(level::debug, message, fields...);
+      }
+
+      template <typename... Args>
+      void info(const std::string& message, field<Args>... fields) {
+        log(level::info, message, fields...);
+      }
+
+      template <typename... Args>
+      void warn(const std::string& message, field<Args>... fields) {
+        log(level::warn, message, fields...);
+      }
+
+      template <typename... Args>
+      void error(const std::string& message, field<Args>... fields) {
+        log(level::error, message, fields...);
+      }
+
     private:
       std::string format(const details::record& record) {
         auto stream = std::ostringstream{};

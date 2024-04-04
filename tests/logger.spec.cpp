@@ -17,8 +17,7 @@ TEST_CASE("it should format log records with logfmt format") {
     logfmtxx::field{"key1", "value1"}
   };
 
-  logger.log(
-    logfmtxx::level::info,
+  logger.info(
     "hello",
     logfmtxx::field{"key2", "value2"}
   );
@@ -36,8 +35,7 @@ TEST_CASE("it should work with functors") {
     logfmtxx::field{"key1", "value1"}
   };
 
-  logger.log(
-    logfmtxx::level::info,
+  logger.info(
     "hello",
     logfmtxx::field{"key2", "value2"}
   );
