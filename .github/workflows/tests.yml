@@ -1,0 +1,28 @@
+---
+name: tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        compiler:
+          - package: gcc-13
+            bin: g++
+          - package: gcc-12
+            bin: g++
+          - package: gcc-11
+            bin: g++
+    steps:
+      - name: checkout-scm
+        uses: actions/checkout@v2
+      - name: setup
+        run: sudo apt install ${{ matrix.compiler.package }} make
+      - name: test
+        run: make test CXX=${{ matrix.compiler.bin }}
