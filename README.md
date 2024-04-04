@@ -95,6 +95,18 @@ The result should be:
 time="2001-01-01T00:00:00Z" level=error message="internal server error" foo=42 bar=3.14000 http.method="GET" http.path="/" http.status=500
 ```
 
+If your type implements `as_string()`, it can be used with a field:
+
+```cpp
+struct foo {
+  std::string as_string() const {
+    return "i am foo";
+  }
+};
+
+logger.log(logfmtxx::level::info, "example", logfmtxx::ffeld{"foo", foo{}});
+```
+
 ## License
 
 This software is released under the terms of the
