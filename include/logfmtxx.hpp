@@ -81,11 +81,14 @@ namespace logfmtxx {
     T value;
   };
 
-  template <typename clock_type = std::chrono::system_clock>
-  class logger {
-    public:
-      using printer_type = std::function<void(const std::string&)>;
+  template <typename T>
+  concept printer_trait = requires(T t, const std::string &msg) {
+    { t(msg) };
+  };
 
+  template <typename clock_type = std::chrono::system_clock,
+            printer_trait printer_type = std::function<void(const std::string&)>>
+  class logger {
     public:
       template <typename... Args>
       logger(
