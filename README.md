@@ -63,7 +63,7 @@ logger.log(logfmtxx::level::info, "hello world");
 The result should be:
 
 ```
-time="Mon Jan 01 01:00:00 2001" level=info message="hello world" foo=42 bar=3.14000
+time="2001-01-01T00:00:00Z" level=info message="hello world" foo=42 bar=3.14000
 ```
 
 You can add extra fields as well:
@@ -81,7 +81,7 @@ logger.log(
 The result should be:
 
 ```
-time="Mon Jan 01 01:00:00 2001" level=error message="internal server error" foo=42 bar=3.14000 http.method="GET" http.path="/" http.status=500
+time="2001-01-01T00:00:00Z" level=error message="internal server error" foo=42 bar=3.14000 http.method="GET" http.path="/" http.status=500
 ```
 
 ## License
