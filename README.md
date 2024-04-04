@@ -42,6 +42,17 @@ auto logger = logfmtxx::logger{
 };
 ```
 
+Or with a functor to avoid allocations:
+
+```cpp
+struct printer {
+  void operator()(const std::string& message) {
+    std::cout << message << std::endl;
+  }
+};
+auto logger = logfmtxx::logger{printer{}};
+```
+
 Or with global fields:
 
 ```cpp
