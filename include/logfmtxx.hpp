@@ -71,9 +71,9 @@ namespace logfmtxx {
     }
 
     struct record {
-      level level;
-      std::chrono::system_clock::time_point timestamp;
-      std::string message;
+      level lvl;
+      std::chrono::system_clock::time_point ts;
+      std::string msg;
       std::vector<std::pair<std::string, std::string>> extras;
     };
   }
@@ -101,9 +101,9 @@ namespace logfmtxx {
       template <typename... Args>
       void log(level level, const std::string& message, field<Args>... fields) {
         auto record = details::record{
-          .level = level,
-          .timestamp = clock_type::now(),
-          .message = message
+          .lvl = level,
+          .ts = clock_type::now(),
+          .msg = message
         };
 
         for (const auto& [key, value] : m_extras) {
@@ -119,9 +119,9 @@ namespace logfmtxx {
       std::string format(const details::record& record) {
         auto stream = std::ostringstream{};
 
-        stream << "time=" << details::serialize(record.timestamp) << " ";
-        stream << "level=" << details::serialize(record.level) << " ";
-        stream << "message=" << std::quoted(record.message);
+        stream << "time=" << details::serialize(record.ts) << " ";
+        stream << "level=" << details::serialize(record.lvl) << " ";
+        stream << "message=" << std::quoted(record.msg);
 
         for (const auto& [key, value] : record.extras) {
           stream << " " << key << "=" << value;
