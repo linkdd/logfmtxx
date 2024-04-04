@@ -104,7 +104,7 @@ struct foo {
   }
 };
 
-logger.log(logfmtxx::level::info, "example", logfmtxx::ffeld{"foo", foo{}});
+logger.log(logfmtxx::level::info, "example", logfmtxx::field{"foo", foo{}});
 ```
 
 ## License
