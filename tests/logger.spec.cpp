@@ -12,7 +12,7 @@ struct dummy_clock {
 TEST_CASE("it should format log records with logfmt format") {
   auto logger = logfmtxx::logger<dummy_clock>{
     [](const std::string& message) {
-      CHECK(message == "time=\"Mon Jan 01 01:00:00 2001\" level=info message=\"hello\" key1=\"value1\" key2=\"value2\"");
+      CHECK(message == "time=2001-01-01T00:00:00Z level=info message=\"hello\" key1=\"value1\" key2=\"value2\"");
     },
     logfmtxx::field{"key1", "value1"}
   };

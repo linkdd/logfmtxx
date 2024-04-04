@@ -51,11 +51,8 @@ namespace logfmtxx {
       }
       else if constexpr (std::is_same_v<T, std::chrono::system_clock::time_point>) {
         auto time = std::chrono::system_clock::to_time_t(value);
-        auto timetxt = std::string{std::ctime(&time)};
-        timetxt.pop_back();
-
         auto stream = std::ostringstream{};
-        stream << std::quoted(timetxt);
+        stream << std::put_time(std::gmtime(&time), "%Y-%m-%dT%H:%M:%SZ");
         return stream.str();
       }
       else if constexpr (std::is_same_v<T, level>) {

@@ -40,7 +40,7 @@ TEST_CASE("it should serialize arithmetic types") {
 TEST_CASE("it should serialize time points") {
   auto now = std::chrono::system_clock::from_time_t(978307200);
   auto result = logfmtxx::details::serialize(now);
-  CHECK(result == "\"Mon Jan 01 01:00:00 2001\"");
+  CHECK(result == "2001-01-01T00:00:00Z");
 }
 
 TEST_CASE("it should serialize log levels") {
