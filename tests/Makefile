@@ -10,4 +10,4 @@ all:
 	@mkdir -p $(DESTDIR)
 	@$(CXX) $(CXXFLAGS) $(SOURCES) -o $(DESTDIR)/$(TARGET)
 	@echo "  RUN     $(TARGET)"
-	@exec $(DESTDIR)/$(TARGET)
+	@exec $(DESTDIR)/$(TARGET) 2>/dev/null
