@@ -67,11 +67,18 @@ namespace logfmtxx {
       return "";
     }
 
+    using field_kv_type = std::pair<std::string, std::string>;
+
     struct record {
       level lvl;
       std::chrono::system_clock::time_point ts;
       std::string msg;
-      std::vector<std::pair<std::string, std::string>> extras;
+
+      field_kv_type *global_ctx;
+      std::size_t global_ctx_size;
+
+      field_kv_type *local_ctx;
+      std::size_t local_ctx_size;
     };
   }
 
@@ -97,6 +104,7 @@ namespace logfmtxx {
         printer_type printer,
         field<Args>... fields
       ) : m_printer(printer) {
+        m_extras.reserve(sizeof...(Args));
         (m_extras.push_back({fields.key, details::serialize(fields.value)}), ...);
       }
 
@@ -105,14 +113,17 @@ namespace logfmtxx {
         auto record = details::record{
           .lvl = level,
           .ts = clock_type::now(),
-          .msg = message
+          .msg = message,
+          .global_ctx = m_extras.data(),
+          .global_ctx_size = m_extras.size()
         };
 
-        for (const auto& [key, value] : m_extras) {
-          record.extras.push_back({key, value});
-        }
+        std::array<details::field_kv_type, sizeof...(Args)> local_ctx = {
+          details::field_kv_type{fields.key, details::serialize(fields.value)}...
+        };
 
-        (record.extras.push_back({fields.key, details::serialize(fields.value)}), ...);
+        record.local_ctx = local_ctx.data();
+        record.local_ctx_size = local_ctx.size();
 
         m_printer(format(record));
       }
@@ -145,7 +156,13 @@ namespace logfmtxx {
         stream << "level=" << details::serialize(record.lvl) << " ";
         stream << "message=" << std::quoted(record.msg);
 
-        for (const auto& [key, value] : record.extras) {
+        for (auto i = 0; i < record.global_ctx_size; ++i) {
+          const auto& [key, value] = record.global_ctx[i];
+          stream << " " << key << "=" << value;
+        }
+
+        for (auto i = 0; i < record.local_ctx_size; ++i) {
+          const auto& [key, value] = record.local_ctx[i];
           stream << " " << key << "=" << value;
         }
 
@@ -154,6 +171,6 @@ namespace logfmtxx {
 
     private:
       printer_type m_printer;
-      std::vector<std::pair<std::string, std::string>> m_extras;
+      std::vector<details::field_kv_type> m_extras;
   };
 }
