@@ -17,7 +17,7 @@ Or with [Shipp](https://github.com/linkdd/shipp), add it to your dependencies:
     {
       "name": "logfmtxx",
       "url": "https://github.com/linkdd/logfmtxx.git",
-      "version": "v0.3.0"
+      "version": "v0.4.0"
     }
   ]
 }
@@ -76,7 +76,7 @@ logger.info("hello world");
 The result should be:
 
 ```
-time="2001-01-01T00:00:00Z" level=info message="hello world" foo=42 bar=3.14000
+time=2001-01-01T00:00:00Z level=info message="hello world" foo=42 bar=3.14000
 ```
 
 You can add extra fields as well:
@@ -94,7 +94,7 @@ logger.log(
 The result should be:
 
 ```
-time="2001-01-01T00:00:00Z" level=error message="internal server error" foo=42 bar=3.14000 http.method="GET" http.path="/" http.status=500
+time=2001-01-01T00:00:00Z level=error message="internal server error" foo=42 bar=3.14000 http.method="GET" http.path="/" http.status=500
 ```
 
 If your type implements `as_string()`, it can be used with a field:
@@ -108,6 +108,19 @@ struct foo {
 
 logger.log(logfmtxx::level::info, "example", logfmtxx::field{"foo", foo{}});
 ```
+
+## Benchmark
+
+**CPU:** 13th Gen Intel(R) Core(TM) i7-13700K 3.40 GHz
+
+**Results:**
+
+|               ns/op |                op/s |    err% |     total | benchmark
+|--------------------:|--------------------:|--------:|----------:|:----------
+|            7,326.07 |          136,498.88 |    1.1% |      0.09 | `logger.info with context (fast)`
+|            7,169.35 |          139,482.70 |    0.7% |      0.09 | `logger.info without context (fast)`
+|            9,707.22 |          103,016.06 |    1.3% |      0.03 | `logger.info with context (slow)`
+|            9,448.67 |          105,835.01 |    0.7% |      0.03 | `logger.info without context (slow)`
 
 ## License
 
