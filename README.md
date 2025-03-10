@@ -17,7 +17,7 @@ Or with [Shipp](https://github.com/linkdd/shipp), add it to your dependencies:
     {
       "name": "logfmtxx",
       "url": "https://github.com/linkdd/logfmtxx.git",
-      "version": "v0.4.0"
+      "version": "v0.4.1"
     }
   ]
 }
