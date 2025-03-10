@@ -156,12 +156,12 @@ namespace logfmtxx {
         stream << "level=" << details::serialize(record.lvl) << " ";
         stream << "message=" << std::quoted(record.msg);
 
-        for (auto i = 0; i < record.global_ctx_size; ++i) {
+        for (std::size_t i = 0; i < record.global_ctx_size; ++i) {
           const auto& [key, value] = record.global_ctx[i];
           stream << " " << key << "=" << value;
         }
 
-        for (auto i = 0; i < record.local_ctx_size; ++i) {
+        for (std::size_t i = 0; i < record.local_ctx_size; ++i) {
           const auto& [key, value] = record.local_ctx[i];
           stream << " " << key << "=" << value;
         }
