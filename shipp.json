@@ -1,6 +1,6 @@
 {
   "name": "logfmtxx",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "scripts": {
     "build": "true",
     "install": "make install DESTDIR=$SHIPP_DIST_DIR"
