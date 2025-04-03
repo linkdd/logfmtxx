@@ -110,20 +110,19 @@ namespace logfmtxx {
 
       template <typename... Args>
       void log(level level, const std::string& message, field<Args>... fields) {
+        std::array<details::field_kv_type, sizeof...(Args)> local_ctx = {
+          details::field_kv_type{fields.key, details::serialize(fields.value)}...
+        };
+
         auto record = details::record{
           .lvl = level,
           .ts = clock_type::now(),
           .msg = message,
           .global_ctx = m_extras.data(),
-          .global_ctx_size = m_extras.size()
+          .global_ctx_size = m_extras.size(),
+          .local_ctx = local_ctx.data(),
+          .local_ctx_size = local_ctx.size()
         };
-
-        std::array<details::field_kv_type, sizeof...(Args)> local_ctx = {
-          details::field_kv_type{fields.key, details::serialize(fields.value)}...
-        };
-
-        record.local_ctx = local_ctx.data();
-        record.local_ctx_size = local_ctx.size();
 
         m_printer(format(record));
       }
