@@ -23,6 +23,24 @@ Or with [Shipp](https://github.com/linkdd/shipp), add it to your dependencies:
 }
 ```
 
+Or with CMake's `FetchContent`:
+
+```cmake
+include(FetchContent)
+
+FetchContent_Declare(
+    logfmtxx
+    GIT_REPOSITORY https://github.com/linkdd/logfmtxx.git
+    GIT_TAG        v0.4.2
+)
+FetchContent_MakeAvailable(
+    logfmtxx
+)
+
+add_library(logfmtxx INTERFACE ${logfmtxx_SOURCE_DIR}/include/logfmtxx.hpp)
+target_include_directories(logfmtxx PUBLIC ${logfmtxx_SOURCE_DIR}/include)
+```
+
 ## Usage
 
 First, include the relevant headers:
